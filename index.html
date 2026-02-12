@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Message ❤️</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #fff0f5;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.container {
+    padding-top: 25vh;
+}
+
+h1 {
+    color: #d63384;
+    font-size: 26px;
+    padding: 0 20px;
+}
+
+.buttons {
+    margin-top: 30px;
+    position: relative;
+    height: 200px;
+}
+
+button {
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.yes {
+    background: #ff4d6d;
+    color: white;
+}
+
+.no {
+    background: #6c757d;
+    color: white;
+    position: absolute;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Will you be my Valentine? ❤️</h1>
+
+    <div class="buttons">
+        <button class="yes" onclick="sayYes()">Yes 💖</button>
+        <button id="noBtn" class="no">No 😢</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+function moveButton() {
+    const btnArea = document.querySelector(".buttons");
+    const maxX = btnArea.clientWidth - noBtn.clientWidth;
+    const maxY = btnArea.clientHeight - noBtn.clientHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+// Works on desktop (mouse)
+noBtn.addEventListener("mouseover", moveButton);
+
+// Works on mobile (touch)
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveButton();
+});
+
+function sayYes() {
+    document.body.innerHTML = `
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;
+                    font-family:Arial;text-align:center;background:#fff0f5;">
+            <div>
+                <h1 style="color:#ff4d6d;">Yay ❤️</h1>
+                <h2>You are my Valentine 💖</h2>
+                <p style="color:#555;">Yours Dudu</p>
+            </div>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Message ❤️</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #fff0f5;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.container {
+    padding-top: 25vh;
+}
+
+h1 {
+    color: #d63384;
+    font-size: 26px;
+    padding: 0 20px;
+}
+
+.buttons {
+    margin-top: 30px;
+    position: relative;
+    height: 200px;
+}
+
+button {
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.yes {
+    background: #ff4d6d;
+    color: white;
+}
+
+.no {
+    background: #6c757d;
+    color: white;
+    position: absolute;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Will you be my Valentine? ❤️</h1>
+
+    <div class="buttons">
+        <button class="yes" onclick="sayYes()">Yes 💖</button>
+        <button id="noBtn" class="no">No 😢</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+function moveButton() {
+    const btnArea = document.querySelector(".buttons");
+    const maxX = btnArea.clientWidth - noBtn.clientWidth;
+    const maxY = btnArea.clientHeight - noBtn.clientHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+// Works on desktop (mouse)
+noBtn.addEventListener("mouseover", moveButton);
+
+// Works on mobile (touch)
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveButton();
+});
+
+function sayYes() {
+    document.body.innerHTML = `
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;
+                    font-family:Arial;text-align:center;background:#fff0f5;">
+            <div>
+                <h1 style="color:#ff4d6d;">Yay ❤️</h1>
+                <h2>You are my Valentine 💖</h2>
+                <p style="color:#555;">Yours Dudu</p>
+            </div>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
