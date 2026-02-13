@@ -74,11 +74,65 @@ button {
 }
 
 /* 💍 Ring pop animation */
-.ring {
+/* .ring {
     font-size: 90px;
     transform: scale(0);
     animation: ringPop 0.9s ease-out forwards;
+} */
+
+/* Center proposal */
+.proposal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
 }
+
+/* 📦 Ring box */
+.ring-box {
+    font-size: 70px;
+    position: relative;
+}
+
+/* Box lid animation */
+.lid {
+    display: block;
+    animation: openLid 1s ease forwards;
+    transform-origin: bottom center;
+}
+
+/* Ring pop */
+.ring {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    font-size: 45px;
+    animation: ringPop 0.8s ease forwards;
+    animation-delay: 0.9s;
+}
+
+@keyframes openLid {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(-120deg); }
+}
+
+@keyframes ringPop {
+    0% { transform: translateX(-50%) scale(0); opacity: 0; }
+    70% { transform: translateX(-50%) scale(1.3); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+/* Glow text */
+.glow {
+    animation: glowPulse 1.3s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from { text-shadow: 0 0 10px #ff4d6d; }
+    to { text-shadow: 0 0 20px #ff85a2; }
+}    
 
 @keyframes ringPop {
     0% { transform: scale(0) rotate(-25deg); opacity: 0; }
@@ -178,36 +232,6 @@ function createHeart() {
 }
 setInterval(createHeart, 300);
 
-/* When YES clicked */
-function sayYes() {
-    const music = document.getElementById("music");
-
-    // Play after user click (allowed by browser)
-    music.currentTime = 0;
-    music.play().catch(err => console.log("Play blocked:", err));
-
-    //Start rose petals
-    setInterval(createPetal, 250);
-
-    // Change only visible content (do NOT recreate audio)
-   document.querySelector(".container").innerHTML = `
-    <div class="proposal-box">
-        <div class="ring">💍</div>
-        <h1 style="color:#ff4d6d;margin-top:15px;">Yay ❤️</h1>
-        <h2>Finally you said YES 😍</h2>
-        <p style="font-size:18px;color:#444;">
-            From the moment you came into my life,<br>
-            everything became beautiful 💖<br>
-            Want to spend my life with you ❤️<br>
-            Prathi roju special ayindi 💖
-        </p>
-
-        <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
-
-    </div>
-`;
-}
-
 // Create falling rose petals
 function createPetal() {
     const petal = document.createElement("div");
@@ -223,19 +247,46 @@ function createPetal() {
     setTimeout(() => petal.remove(), 7000);
 }    
 
-    
+/* When YES clicked */
+function sayYes() {
+    const music = document.getElementById("music");
+
+    // Play after user click (allowed by browser)
+    music.currentTime = 0;
+    music.play().catch(err => console.log("Play blocked:", err));
+
+    //Start rose petals
+    setInterval(createPetal, 250);
+
+    // Change only visible content (do NOT recreate audio)
+   document.querySelector(".container").innerHTML = `
+    <div class="proposal-box">
+
+        <div class="ring-box">
+            <div class="lid">📦</div>
+            <div class="ring">💍</div>
+        </div>
+        <h1 class="glow" style="color:#ff4d6d;margin-top:20px;">
+            Will You Marry Me? ❤️
+        </h1>
+
+        <p style="font-size:18px;color:#444;margin-top:10px;">
+            From the moment you came into my life,<br>
+            everything became beautiful 💖<br>
+            I want to spend my forever with you ❤️
+        </p>
+
+        <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
+    </div>
+`;
+}
+
+
     
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
