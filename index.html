@@ -172,12 +172,32 @@ button {
 
     <button id="yesBtn" class="yes" onclick="sayYes()">Yes 💖</button>
     <button id="noBtn" class="no">No 😢</button>
+    <p id="funText" style="margin-top:15px;color:#ff4d6d;font-weight:600;"></p>
 </div>
 
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 let yesSize = 18;
+
+const noMessages = [
+    "No aa? Think again 😜",
+    "Escape avvalevu 😏",
+    "Try again… I am faster 🏃‍♂️",
+    "No button tired already 😵",
+    "Arey click YES ra ❤️",
+    "Destiny says YES only 💘",
+    "Nice try 😂 but no escape",
+    "You know the answer already 😉"
+];
+
+const yesMessages = [
+    "Aww you like me 💖",
+    "Heart says YES already ❤️",
+    "Smile confirmed 😍",
+    "Almost there… click it 💘",
+    "Love loading… 90% 😄"
+];    
 
 function moveNo() {
     const btnRect = noBtn.getBoundingClientRect();
@@ -201,6 +221,10 @@ function moveNo() {
     noBtn.style.top = y + "px";
 
     growYes();
+    const text = document.getElementById("funText");
+   if (text) {
+    text.innerText = noMessages[Math.floor(Math.random() * noMessages.length)];
+    }
 }
 
 function growYes() {
@@ -211,6 +235,11 @@ function growYes() {
         yesSize += step;
         yesBtn.style.fontSize = yesSize + "px";
         yesBtn.style.padding = (yesSize / 1.8) + "px " + (yesSize * 1.6) + "px";
+    }
+
+    const text = document.getElementById("funText");
+    if (text) {
+    text.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
     }
 }    
 
@@ -289,6 +318,7 @@ function sayYes() {
 
 </body>
 </html>
+
 
 
 
