@@ -226,20 +226,27 @@ function moveNo() {
 }
 
 function growYes() {
-    const maxSize = 34;   // limit size (change if you want bigger)
-    const step = 1.5;     // growth speed (small = smooth)
+    const maxSize = 30;
+    const step = 1.2;
 
     if (yesSize < maxSize) {
         yesSize += step;
         yesBtn.style.fontSize = yesSize + "px";
         yesBtn.style.padding = (yesSize / 1.8) + "px " + (yesSize * 1.6) + "px";
-    }
 
-    const text = document.getElementById("funText");
-    if (text) {
-    text.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
+        // SHOW YES MESSAGE (with priority)
+        const text = document.getElementById("funText");
+        if (text) {
+            text.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
+
+            // keep YES message visible for a moment
+            clearTimeout(window.funTextTimer);
+            window.funTextTimer = setTimeout(() => {
+                text.innerText = "";
+            }, 1200);
+        }
     }
-}    
+}
 
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("touchstart", function(e){
@@ -316,6 +323,7 @@ function sayYes() {
 
 </body>
 </html>
+
 
 
 
