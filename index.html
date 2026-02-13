@@ -3,40 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secret Message ❤️</title>
+<title>My Valentine ❤️</title>
 
 <style>
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #fff0f5;
-    height: 100vh;
     margin: 0;
     overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #fff0f5;
+    text-align: center;
 }
 
+/* Center content */
 .container {
-    padding-top: 25vh;
+    position: relative;
+    top: 30vh;
 }
 
 h1 {
-    color: #d63384;
-    font-size: 26px;
-    padding: 0 20px;
+    color: #ff4d6d;
 }
 
-.buttons {
-    margin-top: 30px;
-    position: relative;
-    height: 200px;
-}
-
+/* Buttons */
 button {
     padding: 14px 28px;
     font-size: 18px;
     border-radius: 10px;
     border: none;
+    margin: 10px;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .yes {
@@ -49,52 +45,90 @@ button {
     color: white;
     position: absolute;
 }
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-110vh); opacity: 0; }
+}
 </style>
 </head>
 
 <body>
 
+<!-- Telugu Romantic Music -->
+<audio id="music" loop>
+  <!-- Replace below link with any Telugu MP3 you like -->
+  <source src="https://pagalworld.com.se/files/download/id/6467" type="audio/mpeg">
+</audio>
+
 <div class="container">
     <h1>Will you be my Valentine? ❤️</h1>
 
-    <div class="buttons">
-        <button class="yes" onclick="sayYes()">Yes 💖</button>
-        <button id="noBtn" class="no">No 😢</button>
-    </div>
+    <button id="yesBtn" class="yes" onclick="sayYes()">Yes 💖</button>
+    <button id="noBtn" class="no">No 😢</button>
 </div>
 
 <script>
 const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+let yesSize = 18;
 
-function moveButton() {
-    const btnArea = document.querySelector(".buttons");
-    const maxX = btnArea.clientWidth - noBtn.clientWidth;
-    const maxY = btnArea.clientHeight - noBtn.clientHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
+/* Move NO button */
+function moveNo() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
+
+    // Increase YES size
+    yesSize += 4;
+    yesBtn.style.fontSize = yesSize + "px";
+    yesBtn.style.padding = (yesSize/1.5) + "px " + (yesSize*1.5) + "px";
 }
 
-// Works on desktop (mouse)
-noBtn.addEventListener("mouseover", moveButton);
-
-// Works on mobile (touch)
-noBtn.addEventListener("touchstart", function(e) {
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", function(e){
     e.preventDefault();
-    moveButton();
+    moveNo();
 });
 
+/* Floating hearts generator */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    heart.style.fontSize = (16 + Math.random() * 20) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 300);
+
+/* When YES clicked */
 function sayYes() {
+    document.getElementById("music").play();
+
     document.body.innerHTML = `
-        <div style="display:flex;justify-content:center;align-items:center;height:100vh;
-                    font-family:Arial;text-align:center;background:#fff0f5;">
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;background:#fff0f5;font-family:Arial;">
             <div>
                 <h1 style="color:#ff4d6d;">Yay ❤️</h1>
-                <h2>You are my Valentine 💖</h2>
-                <p style="color:#555;">Yours Dudu</p>
+                <h2>Finally you said YES 😍</h2>
+                <p style="font-size:18px;color:#444;">
+                    Nuvvu na life lo vachinappati nunchi  
+                    prathi roju special ayindi 💖  
+                    I am lucky to have you ❤️  
+                </p>
+                <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
             </div>
         </div>
     `;
@@ -102,110 +136,4 @@ function sayYes() {
 </script>
 
 </body>
-</html><!DOCTYPE html>
-<!-- <html lang="en">
-<head> -->
-<!-- <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secret Message ❤️</title>
-
-<style> -->
-<!-- body {
-    <!-- font-family: Arial, sans-serif;
-    text-align: center;
-    background: #fff0f5;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-}
-
-.container {
-    padding-top: 25vh;
-} -->
-
-h1 {
-    color: #d63384;
-    font-size: 26px;
-    padding: 0 20px;
-}
-
-.buttons {
-    margin-top: 30px;
-    position: relative;
-    height: 200px;
-}
-
-button {
-    padding: 14px 28px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-}
-
-.yes {
-    background: #ff4d6d;
-    color: white;
-}
-
-.no {
-    background: #6c757d;
-    color: white;
-    position: absolute;
-}
-</style>
-</head>
-
-<body>
-<!-- 
-<div class="container">
-    <h1>Will you be my Valentine? ❤️</h1>
-
-    <div class="buttons">
-        <button class="yes" onclick="sayYes()">Yes 💖</button>
-        <button id="noBtn" class="no">No 😢</button>
-    </div>
-</div> -->
-
-<!-- <script> -->
-// const noBtn = document.getElementById("noBtn");
-
-// function moveButton() {
-//     const btnArea = document.querySelector(".buttons");
-//     const maxX = btnArea.clientWidth - noBtn.clientWidth;
-//     const maxY = btnArea.clientHeight - noBtn.clientHeight;
-
-//     const x = Math.random() * maxX;
-//     const y = Math.random() * maxY;
-
-//     noBtn.style.left = x + "px";
-//     noBtn.style.top = y + "px";
-// }
-
-// Works on desktop (mouse)
-// noBtn.addEventListener("mouseover", moveButton);
-
-// Works on mobile (touch)
-// noBtn.addEventListener("touchstart", function(e) {
-//     e.preventDefault();
-//     moveButton(); -->
-// });
-
-// function sayYes() {
-//     document.body.innerHTML = `
-//         <div style="display:flex;justify-content:center;align-items:center;height:100vh;
-//                     font-family:Arial;text-align:center;background:#fff0f5;">
-//             <div>
-//                 <h1 style="color:#ff4d6d;">Yay ❤️</h1>
-//                 <h2>You are my Valentine 💖</h2>
-//                 <p style="color:#555;">Yours Dudu</p>
-//             </div>
-//         </div>
-//     `;
-// }
-// </script>
-
-// </body>
-
-// </html>
-
+</html>
