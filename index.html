@@ -61,14 +61,13 @@ button {
 </style>
 </head>
 
-<body>
-
 <!-- Telugu Romantic Music -->
 <audio id="music" loop>
   <!-- Replace below link with any Telugu MP3 you like -->
   <source src="Vaalu.mp3" type="audio/mpeg">
-</audio>
+</audio>    
 
+<body>
 <div class="container">
     <h1>Will you be my Valentine? ❤️</h1>
 
@@ -85,7 +84,7 @@ function moveNo() {
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
 
-    const margin = 20;
+    const margin = 10;
 
     const maxX = window.innerWidth - btnWidth - margin;
     const maxY = window.innerHeight - btnHeight - margin;
@@ -93,17 +92,29 @@ function moveNo() {
     const minX = margin;
     const minY = margin;
 
-    const x = Math.random() * (maxX - minX) + minX;
-    const y = Math.random() * (maxY - minY) + minY;
+    let x = Math.random() * (maxX - minX) + minX;
+    let y = Math.random() * (maxY - minY) + minY;
+
+    // Ensure button never goes outside visible viewport
+    x = Math.max(minX, Math.min(x, maxX));
+    y = Math.max(minY, Math.min(y, maxY));
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
-    // grow YES
-    yesSize += 4;
-    yesBtn.style.fontSize = yesSize + "px";
-    yesBtn.style.padding = (yesSize/1.5) + "px " + (yesSize*1.5) + "px";
+    growYes(); // grow YES slowly
 }
+
+function growYes() {
+    const maxSize = 28;   // limit size (change if you want bigger)
+    const step = 1.5;     // growth speed (small = smooth)
+
+    if (yesSize < maxSize) {
+        yesSize += step;
+        yesBtn.style.fontSize = yesSize + "px";
+        yesBtn.style.padding = (yesSize / 1.8) + "px " + (yesSize * 1.6) + "px";
+    }
+}    
 
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("touchstart", function(e){
@@ -129,36 +140,30 @@ setInterval(createHeart, 300);
 function sayYes() {
     const music = document.getElementById("music");
 
-    // play music FIRST
+    // Play after user click (allowed by browser)
     music.currentTime = 0;
-    music.play().catch(() => {});
+    music.play().catch(err => console.log("Play blocked:", err));
 
-    // DON'T delete audio element — only change content
-    document.body.innerHTML = `
-        <audio id="music" autoplay loop>
-            <source src="vaalu.mp3" type="audio/mpeg">
-        </audio>
-
-        <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;background:#fff0f5;font-family:Arial;">
-            <div>
-                <h1 style="color:#ff4d6d;">Yay ❤️</h1>
-                <h2>Finally you said YES 😍</h2>
-                <p style="font-size:18px;color:#444;">
-                Checking if the changes are working
-                    Nuvvu na life lo vachinappati nunchi  
-                    prathi roju special ayindi 💖  
-                    I am lucky to have you ❤️  
-                </p>
-                <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
-            </div>
-        </div>
+    // Change only visible content (do NOT recreate audio)
+    document.querySelector(".container").innerHTML = `
+        <h1 style="color:#ff4d6d;">Yay ❤️</h1>
+        <h2>Finally you said YES 😍</h2>
+        <p style="font-size:18px;color:#444;">
+            Nuvvu na life lo vachinappati nunchi<br>
+            prathi roju special ayindi 💖<br>
+            I am lucky to have you ❤️
+        </p>
+        <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
     `;
 }
+
+    
     
 </script>
 
 </body>
 </html>
+
 
 
 
