@@ -64,6 +64,28 @@ button {
     animation: fall linear forwards;
 }
 
+/* Proposal center layout */
+.proposal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+}
+
+/* 💍 Ring pop animation */
+.ring {
+    font-size: 90px;
+    transform: scale(0);
+    animation: ringPop 0.9s ease-out forwards;
+}
+
+@keyframes ringPop {
+    0% { transform: scale(0) rotate(-25deg); opacity: 0; }
+    60% { transform: scale(1.25) rotate(10deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+}    
+
 @keyframes fall {
     0% {
         transform: translateY(0) rotate(0deg);
@@ -168,17 +190,22 @@ function sayYes() {
     setInterval(createPetal, 250);
 
     // Change only visible content (do NOT recreate audio)
-    document.querySelector(".container").innerHTML = `
-        <h1 style="color:#ff4d6d;">Yay ❤️</h1>
+   document.querySelector(".container").innerHTML = `
+    <div class="proposal-box">
+        <div class="ring">💍</div>
+        <h1 style="color:#ff4d6d;margin-top:15px;">Yay ❤️</h1>
         <h2>Finally you said YES 😍</h2>
         <p style="font-size:18px;color:#444;">
-            From the moment, you came into my life, everything became beautiful <br>
-            Want to spend my life with you <br>
-            prathi roju special ayindi 💖<br>
-            I am lucky to have you ❤️
+            From the moment you came into my life,<br>
+            everything became beautiful 💖<br>
+            Want to spend my life with you ❤️<br>
+            Prathi roju special ayindi 💖
         </p>
+
         <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
-    `;
+
+    </div>
+`;
 }
 
 // Create falling rose petals
@@ -202,6 +229,7 @@ function createPetal() {
 
 </body>
 </html>
+
 
 
 
