@@ -43,7 +43,8 @@ button {
 .no {
     background: #6c757d;
     color: white;
-    position: absolute;
+    position: fixed;   /* MUST be fixed */
+    z-index: 999;
 }
 
 /* Floating hearts */
@@ -81,13 +82,12 @@ const yesBtn = document.getElementById("yesBtn");
 let yesSize = 18;
 
 function moveNo() {
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
+    const btnRect = noBtn.getBoundingClientRect();
 
-    const margin = 10;
+    const margin = 12;
 
-    const maxX = window.innerWidth - btnWidth - margin;
-    const maxY = window.innerHeight - btnHeight - margin;
+    const maxX = window.innerWidth - btnRect.width - margin;
+    const maxY = window.innerHeight - btnRect.height - margin;
 
     const minX = margin;
     const minY = margin;
@@ -95,18 +95,18 @@ function moveNo() {
     let x = Math.random() * (maxX - minX) + minX;
     let y = Math.random() * (maxY - minY) + minY;
 
-    // Ensure button never goes outside visible viewport
+    // HARD CLAMP (guarantee inside)
     x = Math.max(minX, Math.min(x, maxX));
     y = Math.max(minY, Math.min(y, maxY));
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
-    growYes(); // grow YES slowly
+    growYes();
 }
 
 function growYes() {
-    const maxSize = 28;   // limit size (change if you want bigger)
+    const maxSize = 34;   // limit size (change if you want bigger)
     const step = 1.5;     // growth speed (small = smooth)
 
     if (yesSize < maxSize) {
@@ -163,6 +163,7 @@ function sayYes() {
 
 </body>
 </html>
+
 
 
 
