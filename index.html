@@ -175,6 +175,32 @@ h1{
     from{ transform:translateY(0) rotate(0); }
     to{ transform:translateY(110vh) rotate(360deg); }
 }
+
+.fade-line{
+    opacity:0;
+    transform:translateY(10px);
+    animation:fadeLine 1.2s ease forwards;
+    font-size:18px;
+    color:#444;
+    max-width:420px;
+    margin:6px auto;
+    line-height:1.6;
+    text-align:center;
+}
+
+/* each line appears with delay */
+.fade-line:nth-child(1){ animation-delay:0.6s; }
+.fade-line:nth-child(2){ animation-delay:1.6s; }
+.fade-line:nth-child(3){ animation-delay:2.6s; }
+.fade-line:nth-child(4){ animation-delay:3.6s; }
+
+@keyframes fadeLine{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+    
 </style>
 </head>
 
@@ -297,7 +323,30 @@ document.querySelector(".container").innerHTML=`
 <div class="ring">💍</div>
 </div>
 <h1>Will You Marry Me? ❤️</h1>
-<p>Your love letter text here. and here..</p>
+<div class="love-lines">
+
+<p class="fade-line">
+From the moment you came into my life,
+everything became beautiful 💖
+</p>
+
+<p class="fade-line">
+Your smile is my peace,
+your love is my strength ❤️
+</p>
+
+<p class="fade-line">
+With you, every moment feels special —
+every heartbeat feels like home 💞
+</p>
+
+<p class="fade-line">
+I want to walk every step of life with you,
+today, tomorrow, forever 💍
+</p>
+
+</div>
+
 <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
 </div>`;
 };  
@@ -305,6 +354,7 @@ document.querySelector(".container").innerHTML=`
     
 </body>
 </html>
+
 
 
 
