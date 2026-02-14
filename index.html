@@ -14,10 +14,10 @@ body{
     text-align:center;
 }
 
-/* Center layout */
+/* Center layout (stable, no shifting) */
 .container{
     position:absolute;
-    top:58%;                 /* was 50% */
+    top:50%;
     left:50%;
     transform:translate(-50%,-50%);
 }
@@ -25,7 +25,7 @@ body{
 /* Title */
 h1{
     color:#ff4d6d;
-    margin-bottom:20px;
+    margin-bottom:28px;   /* space above heart */
 }
 
 /* Buttons row */
@@ -33,46 +33,42 @@ h1{
     display:flex;
     justify-content:center;
     align-items:center;
-    margin-top: 18px;
     gap:40px;
 }
 
-/* YES heart */
+/* YES heart (stable shape) */
 .yes{
     position:relative;
-    width:74px;
-    height:70px;
+    width:78px;
+    height:74px;
     background:#ff4d6d;
     border:none;
     transform:rotate(-45deg);
     cursor:pointer;
     z-index:10;
-    margin-top:8px;
 }
 
 .yes::before,
 .yes::after{
     content:"";
     position:absolute;
-    width:80px;
-    height:75px;
+    width:78px;
+    height:74px;
     background:#ff4d6d;
     border-radius:50%;
 }
-
-.yes::before{ top:-40px; left:0; }
-.yes::after{ left:40px; top:0; }
+.yes::before{ top:-38px; left:0; }
+.yes::after{ left:38px; top:0; }
 
 .yes span{
     position:absolute;
-    top:58%;                 /* slightly lower */
+    top:50%;
     left:50%;
     transform:translate(-50%,-50%) rotate(45deg);
     color:#fff;
     font-weight:bold;
     font-size:14px;
     letter-spacing:1px;
-    pointer-events:none;
 }
 
 /* NO button */
@@ -96,13 +92,12 @@ h1{
     animation:floatUp linear infinite;
     pointer-events:none;
 }
-
 @keyframes floatUp{
     from{ transform:translateY(0); opacity:1; }
     to{ transform:translateY(-110vh); opacity:0; }
 }
 
-/* Rose petals */
+/* Petals */
 .petal{
     position:fixed;
     top:-20px;
@@ -110,28 +105,26 @@ h1{
     pointer-events:none;
     animation:fall linear forwards;
 }
-
 @keyframes fall{
     from{ transform:translateY(0) rotate(0); }
     to{ transform:translateY(110vh) rotate(360deg); }
 }
 
-/* Proposal box */
+/* Proposal */
 .proposal{
     text-align:center;
 }
 
-/* Ring animation */
+/* Ring animation (no overlap now) */
 .ring-box{
-    font-size:70px;
+    font-size:64px;
+    margin-bottom:16px;   /* pushes text down */
     position:relative;
 }
-
 .lid{
     display:block;
     animation:openLid 1s forwards;
 }
-
 .ring{
     position:absolute;
     left:50%;
@@ -144,10 +137,9 @@ h1{
     from{ transform:rotateX(0); }
     to{ transform:rotateX(-120deg); }
 }
-
 @keyframes ringPop{
     0%{ transform:translateX(-50%) scale(0); }
-    70%{ transform:translateX(-50%) scale(1.3); }
+    70%{ transform:translateX(-50%) scale(1.25); }
     100%{ transform:translateX(-50%) scale(1); }
 }
 </style>
@@ -185,33 +177,36 @@ const noTexts=[
 "Destiny says YES 💘"
 ];
 
-/* Move NO */
-function moveNo() {
+/* Move NO — NEVER leaves screen */
+function moveNo(){
 
-    // Strong vibration (mobile)
-    if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
+if(navigator.vibrate) navigator.vibrate([80,40,80]);
 
-    const rect = noBtn.getBoundingClientRect();
-    const margin = 16;
+const rect=noBtn.getBoundingClientRect();
+const margin=12;
 
-    const maxX = window.innerWidth - rect.width - margin;
-    const maxY = window.innerHeight - rect.height - margin;
+/* mobile-safe viewport */
+const vw=window.visualViewport?window.visualViewport.width:window.innerWidth;
+const vh=window.visualViewport?window.visualViewport.height:window.innerHeight;
 
-    const minX = margin;
-    const minY = margin;
+const maxX=vw-rect.width-margin;
+const maxY=vh-rect.height-margin;
 
-    let x = Math.random() * (maxX - minX) + minX;
-    let y = Math.random() * (maxY - minY) + minY;
+const minX=margin;
+const minY=margin;
 
-    // HARD CLAMP (guarantee inside)
-    x = Math.max(minX, Math.min(x, maxX));
-    y = Math.max(minY, Math.min(y, maxY));
+let x=Math.random()*(maxX-minX)+minX;
+let y=Math.random()*(maxY-minY)+minY;
 
-    noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+/* clamp */
+x=Math.max(minX,Math.min(x,maxX));
+y=Math.max(minY,Math.min(y,maxY));
 
-    msg.innerText = noTexts[Math.floor(Math.random() * noTexts.length)];
+noBtn.style.position="fixed";
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
+
+msg.innerText=noTexts[Math.floor(Math.random()*noTexts.length)];
 }
 
 noBtn.addEventListener("mouseover",moveNo);
@@ -220,8 +215,8 @@ e.preventDefault();
 moveNo();
 });
 
-/* Floating hearts always */
-function heart(){
+/* Floating hearts */
+setInterval(()=>{
 const h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💗";
@@ -229,8 +224,7 @@ h.style.left=Math.random()*100+"vw";
 h.style.animationDuration=(3+Math.random()*3)+"s";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
-}
-setInterval(heart,300);
+},300);
 
 /* Petals */
 function petal(){
@@ -255,33 +249,7 @@ document.querySelector(".container").innerHTML=`
 <div class="ring">💍</div>
 </div>
 <h1>Will You Marry Me? ❤️</h1>
-<p>To My Siri,
-This is not a love letter. It is more like a marriage agreement between us.<br><br>
-
-<h3 style="color:#ff4d6d;">To Bubu </h3> <br>
-Nuvu naa life lo present unna most valuable gift, <br>
-Nuvu naku already ok cheppina,<br>
-I'm still trying to make you fall in love with me again.<br>
-I know sometimes, you may feel insecure to introduce me to your friends or anyone.<br>
-But I promise naa valla ayinavi anni nenu chesta, <br>
-Neekosam mellaga koncham koncham marutunna, nuvu adhi observe chesi, appreciate cheyadam naku chala happy ga undi.<br>
-Sometimes you may feel, I'm not trusting you.<br>
-But please Bubu, understand sometimes I too need assurance, after all this happened. I want assurance that this will never happen <br>
-Assurance that you will be with me,<br>
-Assurance that no third person enters between us <br>
-Assurance that you become strong day by day <br>
-Assurance that you will be strict and let them know their boundaries <br> <br> <br>
-
-Because I'm bit possessive about you Bubu, <br>
-I want every small thing of you to be mine. <br>
-You are such a beautiful soul and i don't want any others have eyes 👀 on you. <br> <br> <br>
-
-And I assure you, <br>
-I will be 100 percent loyal to you <br>
-Will never bring third person between us <br>
-Will not share my love with any other female except the cute little version of you that comes into our life <br>
-I will try to make Life better for you <br>
-I will give my whole efforts mentally, physically financially to make you happy❤️</p>
+<p>Your love letter text here...</p>
 <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
 </div>`;
 };
@@ -289,6 +257,3 @@ I will give my whole efforts mentally, physically financially to make you happy�
 
 </body>
 </html>
-
-
-
