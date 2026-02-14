@@ -37,6 +37,13 @@ h1{
     gap:55px;            /* space between YES & NO */
 }
 
+/* Invisible safe movement area */
+.safe-zone{
+    position:fixed;
+    inset:12px;           /* distance from screen edges */
+    pointer-events:none;
+}    
+
 /* ❤️ HEART YES */
 .yes{
     position:relative;
@@ -115,7 +122,7 @@ h1{
 </head>
 
 <body>
-
+<div class="safe-zone" id="safeZone"></div>
 <audio id="music" loop>
 <source src="Vaalu.mp3" type="audio/mpeg">
 </audio>
@@ -138,43 +145,29 @@ const noBtn  = document.getElementById("noBtn");
 /* =========================
    FIX 1 — NO NEVER OUTSIDE
    ========================= */
+const safeZone = document.getElementById("safeZone");
+
 function moveNo(){
 
-    const margin = 12;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const zone = safeZone.getBoundingClientRect();
+    const btn  = noBtn.getBoundingClientRect();
+    const margin = 4;
+    const minX = zone.left + margin;
+    const maxX = zone.right - btn.width - margin;
+    const minY = zone.top + margin;
+    const maxY = zone.bottom - btn.height - margin;
 
-    // ensure latest size after render
-    const rect = noBtn.getBoundingClientRect();
-    const btnW = rect.width;
-    const btnH = rect.height;
-    const minX = margin;
-    const maxX = vw - btnW - margin;
-    const minY = margin;
-    const maxY = vh - btnH - margin;
+    let x = minX + Math.random() * (maxX - minX);
+    let y = minY + Math.random() * (maxY - minY);
 
-    let x = Math.random() * (maxX - minX) + minX;
-    let y = Math.random() * (maxY - minY) + minY;
-
-    // CLAMP — absolute safety
+    // HARD CLAMP (absolute safety)
     x = Math.max(minX, Math.min(x, maxX));
     y = Math.max(minY, Math.min(y, maxY));
 
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
     noBtn.style.top  = y + "px";
-
-    /* Safety re-check after paint (fixes rare mobile escape) */
-    setTimeout(()=>{
-        const r = noBtn.getBoundingClientRect();
-
-        if (r.right > vw)  noBtn.style.left = (vw - btnW - margin) + "px";
-        if (r.bottom > vh) noBtn.style.top  = (vh - btnH - margin) + "px";
-        if (r.left < 0)    noBtn.style.left = margin + "px";
-        if (r.top < 0)     noBtn.style.top  = margin + "px";
-    }, 0);
 }
-
 
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("touchstart", e=>{
@@ -238,4 +231,5 @@ noBtn.addEventListener("touchstart", growYes);
 </script>
 </body>
 </html>
+
 
