@@ -6,301 +6,240 @@
 <title>My Valentine ❤️</title>
 
 <style>
-body {
-    margin: 0;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    background: #fff0f5;
-    text-align: center;
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+    background:#fff0f5;
+    text-align:center;
 }
 
-/* Center */
-.container {
-    position: relative;
-    top: 26vh;
+/* Center layout */
+.container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
 }
 
-h1 { color: #ff4d6d; }
+/* Title */
+h1{
+    color:#ff4d6d;
+    margin-bottom:20px;
+}
 
-/* Buttons wrapper */
-.buttons {
-    position: relative;
-    width: 280px;
-    height: 130px;
-    margin: 20px auto;
+/* Buttons row */
+.buttons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:40px;
 }
 
 /* YES heart */
-.yes {
-    position: absolute;
-    left: 40px;
-    width: 70px;
-    height: 65px;
-    background: #ff4d6d;
-    border: none;
-    transform: rotate(-45deg) scale(1);
-    transform-origin: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 5;
-    transition: transform 0.15s ease;
+.yes{
+    position:relative;
+    width:80px;
+    height:75px;
+    background:#ff4d6d;
+    border:none;
+    transform:rotate(-45deg);
+    cursor:pointer;
+    z-index:10;
 }
 
-.yes::before, .yes::after {
-    content: "";
-    position: absolute;
-    width: 70px;
-    height: 65px;
-    background: #ff4d6d;
-    border-radius: 50%;
+.yes::before,
+.yes::after{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:75px;
+    background:#ff4d6d;
+    border-radius:50%;
 }
-.yes::before { top: -35px; left: 0; }
-.yes::after { left: 35px; top: 0; }
 
-.yes span {
-    transform: rotate(45deg);
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
+.yes::before{ top:-40px; left:0; }
+.yes::after{ left:40px; top:0; }
+
+.yes span{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(45deg);
+    color:#fff;
+    font-weight:bold;
 }
 
 /* NO button */
-.no {
-    position: absolute;
-    right: 40px;
-    padding: 14px 28px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    background: #6c757d;
-    color: white;
-    cursor: pointer;
-    z-index: 5;
+.no{
+    padding:14px 26px;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+    background:#6c757d;
+    color:#fff;
+    cursor:pointer;
+    position:relative;
+    z-index:10;
 }
 
 /* Floating hearts */
-.heart {
-    position: fixed;
-    bottom: -10px;
-    font-size: 20px;
-    animation: floatUp linear infinite;
-    pointer-events: none;
+.heart{
+    position:fixed;
+    bottom:-10px;
+    font-size:20px;
+    animation:floatUp linear infinite;
+    pointer-events:none;
 }
 
-/* Petals */
-.petal {
-    position: fixed;
-    top: -20px;
-    font-size: 20px;
-    pointer-events: none;
-    animation: fall linear forwards;
+@keyframes floatUp{
+    from{ transform:translateY(0); opacity:1; }
+    to{ transform:translateY(-110vh); opacity:0; }
 }
 
-/* Proposal */
-.proposal-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 75vh;
+/* Rose petals */
+.petal{
+    position:fixed;
+    top:-20px;
+    font-size:20px;
+    pointer-events:none;
+    animation:fall linear forwards;
 }
 
-/* Ring box */
-.ring-box {
-    font-size: 70px;
-    position: relative;
-    margin-bottom: 10px;
-}
-.lid {
-    display: block;
-    animation: openLid 1s ease forwards;
-    transform-origin: bottom center;
-}
-.ring {
-    position: absolute;
-    top: 5px;
-    left: 50%;
-    transform: translateX(-50%) scale(0);
-    font-size: 45px;
-    animation: ringPop 0.8s ease forwards;
-    animation-delay: 0.9s;
+@keyframes fall{
+    from{ transform:translateY(0) rotate(0); }
+    to{ transform:translateY(110vh) rotate(360deg); }
 }
 
-/* Glow */
-.glow { animation: glowPulse 1.2s infinite alternate; }
-
-@keyframes glowPulse {
-    from { text-shadow: 0 0 10px #ff4d6d; }
-    to { text-shadow: 0 0 20px #ff85a2; }
+/* Proposal box */
+.proposal{
+    text-align:center;
 }
 
-@keyframes floatUp {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-110vh); opacity: 0; }
+/* Ring animation */
+.ring-box{
+    font-size:70px;
+    position:relative;
 }
 
-@keyframes fall {
-    from { transform: translateY(0) rotate(0deg); opacity: 1; }
-    to { transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
+.lid{
+    display:block;
+    animation:openLid 1s forwards;
 }
 
-@keyframes openLid {
-    from { transform: rotateX(0deg); }
-    to { transform: rotateX(-120deg); }
+.ring{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%) scale(0);
+    animation:ringPop 0.8s forwards;
+    animation-delay:0.8s;
 }
 
-@keyframes ringPop {
-    0% { transform: translateX(-50%) scale(0); opacity: 0; }
-    70% { transform: translateX(-50%) scale(1.3); opacity: 1; }
-    100% { transform: translateX(-50%) scale(1); }
+@keyframes openLid{
+    from{ transform:rotateX(0); }
+    to{ transform:rotateX(-120deg); }
+}
+
+@keyframes ringPop{
+    0%{ transform:translateX(-50%) scale(0); }
+    70%{ transform:translateX(-50%) scale(1.3); }
+    100%{ transform:translateX(-50%) scale(1); }
 }
 </style>
 </head>
 
 <audio id="music" loop>
-  <source src="Vaalu.mp3" type="audio/mpeg">
+<source src="Vaalu.mp3" type="audio/mpeg">
 </audio>
 
 <body>
 
 <div class="container">
-    <h1>Will you be my Valentine? ❤️</h1>
 
-    <div class="buttons">
-        <button id="yesBtn" class="yes"><span>YES</span></button>
-        <button id="noBtn" class="no">No 😜</button>
-    </div>
+<h1>Will you be my Valentine? ❤️</h1>
 
-    <p id="funText" style="margin-top:15px;color:#ff4d6d;font-weight:600;"></p>
+<div class="buttons">
+<button id="yesBtn" class="yes"><span>YES</span></button>
+<button id="noBtn" class="no">No 😜</button>
+</div>
+
+<p id="msg" style="color:#ff4d6d;font-weight:600;"></p>
+
 </div>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const funText = document.getElementById("funText");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const msg=document.getElementById("msg");
 
-const noMessages = [
-    "No aa? Think again 😜",
-    "Escape avvalevu 😏",
-    "Try again… I am faster 🏃‍♂️",
-    "Arey click YES ra ❤️",
-    "Destiny says YES only 💘",
-    "You know the answer already 😉"
-];
-
-const yesMessages = [
-    "Aww you like me 💖",
-    "Heart says YES already ❤️",
-    "Smile confirmed 😍",
-    "Almost there… click it 💘",
-    "Love loading… 90% 😄"
+const noTexts=[
+"No aa? Think again 😜",
+"Escape avvalevu 😏",
+"I am faster 🏃‍♂️",
+"Click YES ra ❤️",
+"Destiny says YES 💘"
 ];
 
 /* Move NO */
-function moveNo() {
-    if (navigator.vibrate) navigator.vibrate(40);
+function moveNo(){
+if(navigator.vibrate) navigator.vibrate(40);
 
-    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+const x=Math.random()*(window.innerWidth-120);
+const y=Math.random()*(window.innerHeight-60);
 
-    noBtn.style.position = "fixed";
-    noBtn.style.left = Math.random() * maxX + "px";
-    noBtn.style.top = Math.random() * maxY + "px";
+noBtn.style.position="fixed";
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
 
-    growYes();
-    funText.innerText = noMessages[Math.floor(Math.random() * noMessages.length)];
+msg.innerText=noTexts[Math.floor(Math.random()*noTexts.length)];
 }
 
-/* YES grows */
-function growYes() {
-    const maxScale = 1.6;
-    const step = 0.06;
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("touchstart",e=>{
+e.preventDefault();
+moveNo();
+});
 
-    if (!yesBtn.scale) yesBtn.scale = 1;
-
-    if (yesBtn.scale < maxScale) {
-        yesBtn.scale += step;
-        yesBtn.style.transform = rotate(-45deg) scale(${yesBtn.scale});
-        funText.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
-        setTimeout(() => funText.innerText = "", 1200);
-    }
+/* Floating hearts always */
+function heart(){
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💗";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(3+Math.random()*3)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
 }
-
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); });
-
-/* Hearts always */
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💗";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
-    heart.style.fontSize = (16 + Math.random() * 20) + "px";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 6000);
-}
-setInterval(createHeart, 300);
+setInterval(heart,300);
 
 /* Petals */
-function createPetal() {
-    const petal = document.createElement("div");
-    petal.className = "petal";
-    petal.innerHTML = "🌹";
-    petal.style.left = Math.random() * 100 + "vw";
-    petal.style.animationDuration = (4 + Math.random() * 3) + "s";
-    petal.style.fontSize = (16 + Math.random() * 18) + "px";
-    document.body.appendChild(petal);
-    setTimeout(() => petal.remove(), 7000);
+function petal(){
+const p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌹";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(4+Math.random()*3)+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),7000);
 }
 
-/* YES clicked */
-yesBtn.onclick = function() {
-    const music = document.getElementById("music");
-    music.currentTime = 0;
-    music.play().catch(()=>{});
+/* YES click */
+yesBtn.onclick=()=>{
+document.getElementById("music").play().catch(()=>{});
+setInterval(petal,250);
 
-    setInterval(createPetal, 250);
-
-    document.querySelector(".container").innerHTML = `
-        <div class="proposal-box">
-            <div class="ring-box">
-                <div class="lid">📦</div>
-                <div class="ring">💍</div>
-            </div>
-            <h1 class="glow">Will You Marry Me? ❤️</h1>
-           <p>To My Siri,
-This is not a love letter. It is more like a marriage agreement between us.<br><br>
-
-Bubu <br>
-Nuvu naa life lo present unna most valuable gift, <br>
-Nuvu naku already ok cheppina,<br>
-I'm still trying to make you fall in love with me again.<br>
-I know sometimes, you may feel insecure to introduce me to your friends or anyone.<br>
-But I promise naa valla ayinavi anni nenu chesta, <br>
-Neekosam mellaga koncham koncham marutunna, nuvu adhi observe chesi, appreciate cheyadam naku chala happy ga undi.<br>
-Sometimes you may feel, I'm not trusting you.<br>
-But please Bubu, understand sometimes I too need assurance, after all this happened. I want assurance that this will never happen <br>
-Assurance that you will be with me,<br>
-Assurance that no third person enters between us <br>
-Assurance that you become strong day by day <br>
-Assurance that you will be strict and let them know their boundaries <br> <br> <br>
-
-Because I'm bit possessive about you Bubu, <br>
-I want every small thing of you to be mine. <br>
-You are such a beautiful soul and i don't want any others have eyes 👀 on you. <br> <br> <br>
-
-And I assure you, <br>
-I will be 100 percent loyal to you <br>
-Will never bring third person between us <br>
-Will not share my love with any other female except the cute little version of you that comes into our life <br>
-I will try to make Life better for you <br>
-I will give my whole efforts mentally, physically financially to make you happy❤️</p>
-            <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
-        </div>
-    `;
+document.querySelector(".container").innerHTML=`
+<div class="proposal">
+<div class="ring-box">
+<div class="lid">📦</div>
+<div class="ring">💍</div>
+</div>
+<h1>Will You Marry Me? ❤️</h1>
+<p>From the moment you came into my life,<br>
+everything became beautiful 💖<br>
+I want to spend my forever with you ❤️</p>
+<h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
+</div>`;
 };
 </script>
 
