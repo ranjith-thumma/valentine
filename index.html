@@ -73,13 +73,6 @@ button {
     height: 70vh;
 }
 
-/* 💍 Ring pop animation */
-/* .ring {
-    font-size: 90px;
-    transform: scale(0);
-    animation: ringPop 0.9s ease-out forwards;
-} */
-
 /* Center proposal */
 .proposal-box {
     display: flex;
@@ -103,6 +96,52 @@ button {
     animation: openLid 1s ease forwards;
     transform-origin: bottom center;
 }
+
+/* ❤️ Heart shaped YES button */
+.yes {
+    position: relative;
+    width: 70px;
+    height: 65px;
+    background: #ff4d6d;
+    border: none;
+    transform: rotate(-45deg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Heart top circles */
+.yes::before,
+.yes::after {
+    content: "";
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    background: #ff4d6d;
+    border-radius: 50%;
+}
+
+/* Left circle */
+.yes::before {
+    top: -35px;
+    left: 0;
+}
+
+/* Right circle */
+.yes::after {
+    left: 35px;
+    top: 0;
+}
+
+/* Keep text straight */
+.yes span {
+    transform: rotate(45deg);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 1;
+}    
 
 /* Ring pop */
 .ring {
@@ -170,7 +209,7 @@ button {
 <div class="container">
     <h1>Will you be my Valentine? ❤️</h1>
 
-    <button id="yesBtn" class="yes" onclick="sayYes()">Yes 💖</button>
+   <button id="yesBtn" class="yes"><span>YES</span></button>
     <button id="noBtn" class="no">No 😢</button>
     <p id="funText" style="margin-top:15px;color:#ff4d6d;font-weight:600;"></p>
 </div>
@@ -199,12 +238,9 @@ const yesMessages = [
 
 function moveNo() {
     const btnRect = noBtn.getBoundingClientRect();
-
     const margin = 12;
-
     const maxX = window.innerWidth - btnRect.width - margin;
     const maxY = window.innerHeight - btnRect.height - margin;
-
     const minX = margin;
     const minY = margin;
 
@@ -231,15 +267,22 @@ function growYes() {
 
     if (yesSize < maxSize) {
         yesSize += step;
-        yesBtn.style.fontSize = yesSize + "px";
-        yesBtn.style.padding = (yesSize / 1.8) + "px " + (yesSize * 1.6) + "px";
 
-        // SHOW YES MESSAGE (with priority)
+        /* Grow HEART size smoothly */
+        const newW = 70 + yesSize * 1.4;
+        const newH = 65 + yesSize * 1.4;
+
+        yesBtn.style.width = newW + "px";
+        yesBtn.style.height = newH + "px";
+
+        /* Optional slight scale for smooth feel */
+        yesBtn.style.transform = "rotate(-45deg) scale(" + (1 + yesSize / 120) + ")";
+
+        // 💖 SHOW YES MESSAGE
         const text = document.getElementById("funText");
         if (text) {
             text.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
 
-            // keep YES message visible for a moment
             clearTimeout(window.funTextTimer);
             window.funTextTimer = setTimeout(() => {
                 text.innerText = "";
@@ -323,6 +366,7 @@ function sayYes() {
 
 </body>
 </html>
+
 
 
 
