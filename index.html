@@ -39,36 +39,49 @@ h1{
 /* YES heart (stable shape) */
 .yes{
     position:relative;
-    width:80px;
-    height:80px;
+    width:110px;
+    height:110px;
     background:#ff4d6d;
     border:none;
-    transform:rotate(-45deg);
     cursor:pointer;
-    z-index:10;
+    transform:rotate(-45deg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
+/* heart top circles */
 .yes::before,
 .yes::after{
     content:"";
     position:absolute;
-    width:80px;
-    height:80px;
+    width:110px;
+    height:110px;
     background:#ff4d6d;
     border-radius:50%;
+    z-index:1;
 }
-.yes::before{ top:-40px; left:0; }
-.yes::after{ left:40px; top:0; }
+    
+.yes::before{
+    top:-55px;
+    left:0;
+}
+
+.yes::after{
+    left:55px;
+    top:0;
+}
 
 .yes span{
     position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) rotate(45deg);
-    color:#fff;
-    font-weight:bold;
-    font-size:15px;
+    transform:rotate(45deg);
+    color:#ffffff;
+    font-size:24px;          /* BIG = visible */
+    font-weight:900;
     letter-spacing:1px;
+    z-index:2;               /* above heart */
+    text-shadow:0 2px 4px rgba(0,0,0,0.35);  /* contrast */
+    user-select:none;
 }
 
 /* NO button */
@@ -201,21 +214,27 @@ function moveNo(){
 
     if (navigator.vibrate) navigator.vibrate([80,40,80]);
 
-    const margin = 20;
+    const margin = 12;
+
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
 
-    // SAFE RANGE ONLY
+    /* --- SAFE ZONE --- */
+    const zoneTop = vh * 0.50;        // lower half of screen
+    const zoneBottom = vh - margin;
+
     const minX = margin;
     const maxX = vw - btnW - margin;
-    const minY = margin;
-    const maxY = vh - btnH - margin;
 
-    // GUARANTEED SAFE RANDOM
-    const x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
-    const y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+    const minY = zoneTop;
+    const maxY = zoneBottom - btnH;
+
+    /* --- RANDOM INSIDE SAFE ZONE --- */
+    const x = Math.random() * (maxX - minX) + minX;
+    const y = Math.random() * (maxY - minY) + minY;
 
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
@@ -264,7 +283,7 @@ document.querySelector(".container").innerHTML=`
 <div class="ring">💍</div>
 </div>
 <h1>Will You Marry Me? ❤️</h1>
-<p>Your love letter text here...</p>
+<p>Your love letter text here. and here..</p>
 <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
 </div>`;
 };
@@ -272,4 +291,5 @@ document.querySelector(".container").innerHTML=`
 
 </body>
 </html>
+
 
