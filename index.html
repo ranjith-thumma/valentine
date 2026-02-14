@@ -40,13 +40,14 @@ h1{
 /* YES heart */
 .yes{
     position:relative;
-    width:80px;
-    height:75px;
+    width:74px;
+    height:70px;
     background:#ff4d6d;
     border:none;
     transform:rotate(-45deg);
     cursor:pointer;
     z-index:10;
+    margin-top:8px;
 }
 
 .yes::before,
@@ -64,12 +65,12 @@ h1{
 
 .yes span{
     position:absolute;
-    top:55%;                 /* slightly lower */
+    top:58%;                 /* slightly lower */
     left:50%;
     transform:translate(-50%,-50%) rotate(45deg);
     color:#fff;
     font-weight:bold;
-    font-size:15px;
+    font-size:14px;
     letter-spacing:1px;
     pointer-events:none;
 }
@@ -191,7 +192,7 @@ function moveNo() {
     if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
 
     const rect = noBtn.getBoundingClientRect();
-    const margin = 12;
+    const margin = 16;
 
     const maxX = window.innerWidth - rect.width - margin;
     const maxY = window.innerHeight - rect.height - margin;
@@ -288,5 +289,6 @@ I will give my whole efforts mentally, physically financially to make you happyâ
 
 </body>
 </html>
+
 
 
