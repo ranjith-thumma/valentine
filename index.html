@@ -40,6 +40,11 @@ button {
     color: white;
 }
 
+.yes {
+    transform-origin: center;   /* grow from center */
+    transition: transform 0.15s ease;
+}    
+
 .no {
     background: #6c757d;
     color: white;
@@ -141,6 +146,14 @@ button {
     font-weight: bold;
     font-size: 14px;
     z-index: 1;
+} 
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;   /* increase space between buttons */
+    margin-top: 15px;
 }    
 
 /* Ring pop */
@@ -209,8 +222,10 @@ button {
 <div class="container">
     <h1>Will you be my Valentine? ❤️</h1>
 
-   <button id="yesBtn" class="yes"><span>YES</span></button>
-    <button id="noBtn" class="no">No 😢</button>
+<div class="buttons">
+    <button id="yesBtn" class="yes"><span>YES</span></button>
+    <button id="noBtn" class="no">No 😜</button>
+</div>
     <p id="funText" style="margin-top:15px;color:#ff4d6d;font-weight:600;"></p>
 </div>
 
@@ -262,23 +277,18 @@ function moveNo() {
 }
 
 function growYes() {
-    const maxSize = 30;
-    const step = 1.2;
+    const maxScale = 1.9;      // how big heart can grow
+    const step = 0.06;         // growth speed
 
-    if (yesSize < maxSize) {
-        yesSize += step;
+    if (!yesBtn.scale) yesBtn.scale = 1;
 
-        /* Grow HEART size smoothly */
-        const newW = 70 + yesSize * 1.4;
-        const newH = 65 + yesSize * 1.4;
+    if (yesBtn.scale < maxScale) {
+        yesBtn.scale += step;
 
-        yesBtn.style.width = newW + "px";
-        yesBtn.style.height = newH + "px";
+        // Grow using SCALE (keeps perfect heart shape)
+        yesBtn.style.transform = rotate(-45deg) scale(${yesBtn.scale});
 
-        /* Optional slight scale for smooth feel */
-        yesBtn.style.transform = "rotate(-45deg) scale(" + (1 + yesSize / 120) + ")";
-
-        // 💖 SHOW YES MESSAGE
+        // 💖 Show YES message
         const text = document.getElementById("funText");
         if (text) {
             text.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
@@ -290,7 +300,6 @@ function growYes() {
         }
     }
 }
-
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("touchstart", function(e){
     e.preventDefault();
@@ -366,6 +375,7 @@ function sayYes() {
 
 </body>
 </html>
+
 
 
 
