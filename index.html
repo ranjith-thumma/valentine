@@ -14,25 +14,23 @@ body {
     text-align: center;
 }
 
-/* Center content */
+/* Center */
 .container {
     position: relative;
-    top: 30vh;
+    top: 26vh;
 }
 
-h1 {
-    color: #ff4d6d;
-}
+h1 { color: #ff4d6d; }
 
-/* Buttons wrapper (fixed layout) */
+/* Buttons wrapper */
 .buttons {
     position: relative;
-    width: 260px;
-    height: 120px;
+    width: 280px;
+    height: 130px;
     margin: 20px auto;
 }
 
-/* YES Heart Button */
+/* YES heart */
 .yes {
     position: absolute;
     left: 40px;
@@ -42,17 +40,15 @@ h1 {
     border: none;
     transform: rotate(-45deg) scale(1);
     transform-origin: center;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 2;
+    z-index: 5;
     transition: transform 0.15s ease;
 }
 
-/* Heart circles */
-.yes::before,
-.yes::after {
+.yes::before, .yes::after {
     content: "";
     position: absolute;
     width: 70px;
@@ -60,26 +56,17 @@ h1 {
     background: #ff4d6d;
     border-radius: 50%;
 }
-
-.yes::before {
-    top: -35px;
-    left: 0;
-}
-
-.yes::after {
-    left: 35px;
-    top: 0;
-}
+.yes::before { top: -35px; left: 0; }
+.yes::after { left: 35px; top: 0; }
 
 .yes span {
     transform: rotate(45deg);
     color: white;
     font-weight: bold;
     font-size: 14px;
-    z-index: 1;
 }
 
-/* NO Button */
+/* NO button */
 .no {
     position: absolute;
     right: 40px;
@@ -90,7 +77,7 @@ h1 {
     background: #6c757d;
     color: white;
     cursor: pointer;
-    z-index: 1;
+    z-index: 5;
 }
 
 /* Floating hearts */
@@ -99,9 +86,10 @@ h1 {
     bottom: -10px;
     font-size: 20px;
     animation: floatUp linear infinite;
+    pointer-events: none;
 }
 
-/* Rose petals */
+/* Petals */
 .petal {
     position: fixed;
     top: -20px;
@@ -110,7 +98,7 @@ h1 {
     animation: fall linear forwards;
 }
 
-/* Proposal layout */
+/* Proposal */
 .proposal-box {
     display: flex;
     flex-direction: column;
@@ -124,15 +112,12 @@ h1 {
     font-size: 70px;
     position: relative;
     margin-bottom: 10px;
-    transform: translateY(-40px);
 }
-
 .lid {
     display: block;
     animation: openLid 1s ease forwards;
     transform-origin: bottom center;
 }
-
 .ring {
     position: absolute;
     top: 5px;
@@ -143,35 +128,33 @@ h1 {
     animation-delay: 0.9s;
 }
 
-/* Glow text */
-.glow {
-    animation: glowPulse 1.3s infinite alternate;
-}
+/* Glow */
+.glow { animation: glowPulse 1.2s infinite alternate; }
 
 @keyframes glowPulse {
     from { text-shadow: 0 0 10px #ff4d6d; }
     to { text-shadow: 0 0 20px #ff85a2; }
 }
 
-@keyframes openLid {
-    0% { transform: rotateX(0deg); }
-    100% { transform: rotateX(-120deg); }
-}
-
-@keyframes ringPop {
-    0% { transform: scale(0) rotate(-25deg); opacity: 0; }
-    60% { transform: scale(1.25) rotate(10deg); opacity: 1; }
-    100% { transform: scale(1) rotate(0); opacity: 1; }
-}
-
-@keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
-}
-
 @keyframes floatUp {
     from { transform: translateY(0); opacity: 1; }
     to { transform: translateY(-110vh); opacity: 0; }
+}
+
+@keyframes fall {
+    from { transform: translateY(0) rotate(0deg); opacity: 1; }
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
+}
+
+@keyframes openLid {
+    from { transform: rotateX(0deg); }
+    to { transform: rotateX(-120deg); }
+}
+
+@keyframes ringPop {
+    0% { transform: translateX(-50%) scale(0); opacity: 0; }
+    70% { transform: translateX(-50%) scale(1.3); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1); }
 }
 </style>
 </head>
@@ -196,6 +179,7 @@ h1 {
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
+const funText = document.getElementById("funText");
 
 const noMessages = [
     "No aa? Think again 😜",
@@ -214,24 +198,22 @@ const yesMessages = [
     "Love loading… 90% 😄"
 ];
 
+/* Move NO */
 function moveNo() {
-    const margin = 20;
-    const maxX = window.innerWidth - noBtn.offsetWidth - margin;
-    const maxY = window.innerHeight - noBtn.offsetHeight - margin;
+    if (navigator.vibrate) navigator.vibrate(40);
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
     noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
 
     growYes();
-
-    const text = document.getElementById("funText");
-    text.innerText = noMessages[Math.floor(Math.random() * noMessages.length)];
+    funText.innerText = noMessages[Math.floor(Math.random() * noMessages.length)];
 }
 
+/* YES grows */
 function growYes() {
     const maxScale = 1.6;
     const step = 0.06;
@@ -241,19 +223,15 @@ function growYes() {
     if (yesBtn.scale < maxScale) {
         yesBtn.scale += step;
         yesBtn.style.transform = rotate(-45deg) scale(${yesBtn.scale});
-
-        const text = document.getElementById("funText");
-        text.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
-
-        clearTimeout(window.funTextTimer);
-        window.funTextTimer = setTimeout(() => text.innerText = "", 1200);
+        funText.innerText = yesMessages[Math.floor(Math.random() * yesMessages.length)];
+        setTimeout(() => funText.innerText = "", 1200);
     }
 }
 
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); });
 
-/* Floating hearts */
+/* Hearts always */
 function createHeart() {
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -266,7 +244,7 @@ function createHeart() {
 }
 setInterval(createHeart, 300);
 
-/* Rose petals */
+/* Petals */
 function createPetal() {
     const petal = document.createElement("div");
     petal.className = "petal";
@@ -293,7 +271,7 @@ yesBtn.onclick = function() {
                 <div class="ring">💍</div>
             </div>
             <h1 class="glow">Will You Marry Me? ❤️</h1>
-            <p>To My Siri,
+           <p>To My Siri,
 This is not a love letter. It is more like a marriage agreement between us.<br><br>
 
 Bubu <br>
@@ -320,7 +298,7 @@ Will never bring third person between us <br>
 Will not share my love with any other female except the cute little version of you that comes into our life <br>
 I will try to make Life better for you <br>
 I will give my whole efforts mentally, physically financially to make you happy❤️</p>
-            <h3 style="color:#ff4d6d;">Yours Lovingly Dudu 💌</h3>
+            <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
         </div>
     `;
 };
