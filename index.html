@@ -41,10 +41,10 @@ h1{
 .safe-zone{
     position:fixed;
     /* smaller visible center box */
-    top:32%;
-    bottom:22%;
-    left:22%;
-    right:22%;
+    top:24%;
+    bottom:14%;
+    left:14%;
+    right:14%;
     pointer-events:none;
     z-index:-1;
 }
@@ -192,12 +192,19 @@ h1{
 <button id="yesBtn" class="yes"><span>YES</span></button>
 <button id="noBtn" class="no">No 😜</button>
 </div>
-
+<p id="msg" style="color:#ff4d6d;font-weight:600;height:22px;"></p>
 </div>
 
 <script>
 const yesBtn = document.getElementById("yesBtn");
 const noBtn  = document.getElementById("noBtn");
+
+const noTexts = [
+  "No aa? Think again 😜",
+  "Escape avvalevu 😏",
+  "Click YES ra ❤️",
+  "Destiny says YES 💘"
+];    
 
 /* =========================
    FIX 1 — NO NEVER OUTSIDE
@@ -227,6 +234,13 @@ function moveNo(){
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
     noBtn.style.top  = y + "px";
+
+     /* 😜 Show funny text */
+    const msgEl = document.getElementById("msg");
+    if (msgEl){
+        msgEl.textContent =
+          noTexts[Math.floor(Math.random() * noTexts.length)];
+    }
 }
 
 noBtn.addEventListener("mouseover", moveNo);
@@ -291,6 +305,7 @@ document.querySelector(".container").innerHTML=`
     
 </body>
 </html>
+
 
 
 
