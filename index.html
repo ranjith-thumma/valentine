@@ -39,8 +39,8 @@ h1{
 /* YES heart (stable shape) */
 .yes{
     position:relative;
-    width:78px;
-    height:74px;
+    width:80px;
+    height:80px;
     background:#ff4d6d;
     border:none;
     transform:rotate(-45deg);
@@ -52,13 +52,13 @@ h1{
 .yes::after{
     content:"";
     position:absolute;
-    width:78px;
-    height:74px;
+    width:80px;
+    height:80px;
     background:#ff4d6d;
     border-radius:50%;
 }
-.yes::before{ top:-38px; left:0; }
-.yes::after{ left:38px; top:0; }
+.yes::before{ top:-40px; left:0; }
+.yes::after{ left:40px; top:0; }
 
 .yes span{
     position:absolute;
@@ -67,7 +67,7 @@ h1{
     transform:translate(-50%,-50%) rotate(45deg);
     color:#fff;
     font-weight:bold;
-    font-size:14px;
+    font-size:15px;
     letter-spacing:1px;
 }
 
@@ -201,33 +201,28 @@ function moveNo(){
 
     if (navigator.vibrate) navigator.vibrate([80,40,80]);
 
-    const margin = 14;
-
-    // visible viewport (works mobile + laptop)
-    const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
+    const margin = 20;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
 
-    let x = Math.random() * (vw - btnW - margin * 2) + margin;
-    let y = Math.random() * (vh - btnH - margin * 2) + margin;
+    // SAFE RANGE ONLY
+    const minX = margin;
+    const maxX = vw - btnW - margin;
+    const minY = margin;
+    const maxY = vh - btnH - margin;
+
+    // GUARANTEED SAFE RANDOM
+    const x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+    const y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
 
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
-    // SECOND HARD CLAMP (guaranteed inside)
-    const rect = noBtn.getBoundingClientRect();
-
-    if(rect.right > vw) noBtn.style.left = (vw - btnW - margin) + "px";
-    if(rect.bottom > vh) noBtn.style.top = (vh - btnH - margin) + "px";
-    if(rect.left < margin) noBtn.style.left = margin + "px";
-    if(rect.top < margin) noBtn.style.top = margin + "px";
-
     msg.innerText = noTexts[Math.floor(Math.random() * noTexts.length)];
 }
-
 
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("touchstart",e=>{
@@ -277,5 +272,4 @@ document.querySelector(".container").innerHTML=`
 
 </body>
 </html>
-
 
