@@ -140,27 +140,41 @@ const noBtn  = document.getElementById("noBtn");
    ========================= */
 function moveNo(){
 
-    const margin = 10;
-
+    const margin = 12;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
-
+    // ensure latest size after render
+    const rect = noBtn.getBoundingClientRect();
+    const btnW = rect.width;
+    const btnH = rect.height;
     const minX = margin;
     const maxX = vw - btnW - margin;
-
     const minY = margin;
     const maxY = vh - btnH - margin;
 
-    const x = Math.random() * (maxX - minX) + minX;
-    const y = Math.random() * (maxY - minY) + minY;
+    let x = Math.random() * (maxX - minX) + minX;
+    let y = Math.random() * (maxY - minY) + minY;
+
+    // CLAMP — absolute safety
+    x = Math.max(minX, Math.min(x, maxX));
+    y = Math.max(minY, Math.min(y, maxY));
 
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
     noBtn.style.top  = y + "px";
+
+    /* Safety re-check after paint (fixes rare mobile escape) */
+    setTimeout(()=>{
+        const r = noBtn.getBoundingClientRect();
+
+        if (r.right > vw)  noBtn.style.left = (vw - btnW - margin) + "px";
+        if (r.bottom > vh) noBtn.style.top  = (vh - btnH - margin) + "px";
+        if (r.left < 0)    noBtn.style.left = margin + "px";
+        if (r.top < 0)     noBtn.style.top  = margin + "px";
+    }, 0);
 }
+
 
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("touchstart", e=>{
@@ -224,3 +238,4 @@ noBtn.addEventListener("touchstart", growYes);
 </script>
 </body>
 </html>
+
