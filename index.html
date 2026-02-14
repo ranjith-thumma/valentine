@@ -271,14 +271,12 @@ function growYes(){
     }
 }
 
-/* =========================
-   YES CLICK
-   ========================= */
-yesBtn.addEventListener("click", ()=>{
-    document.getElementById("music").play().catch(()=>{});
-    setInterval(petal,250);
+/* YES click */
+yesBtn.onclick=()=>{
+document.getElementById("music").play().catch(()=>{});
+setInterval(petal,250);
 
-    document.querySelector(".container").innerHTML=`
+document.querySelector(".container").innerHTML=`
 <div class="proposal">
 <div class="ring-box">
 <div class="lid">📦</div>
@@ -288,15 +286,12 @@ yesBtn.addEventListener("click", ()=>{
 <p>Your love letter text here. and here..</p>
 <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
 </div>`;
-};
-
-/* Grow YES whenever NO tries */
-// noBtn.addEventListener("mouseover", growYes);
-// noBtn.addEventListener("touchstart", growYes);
-
+};  
 </script>
+    
 </body>
 </html>
+
 
 
 
