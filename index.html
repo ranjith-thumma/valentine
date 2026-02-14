@@ -17,7 +17,7 @@ body{
 /* Center layout */
 .container{
     position:absolute;
-    top:50%;
+    top:58%;                 /* was 50% */
     left:50%;
     transform:translate(-50%,-50%);
 }
@@ -33,6 +33,7 @@ h1{
     display:flex;
     justify-content:center;
     align-items:center;
+    margin-top: 18px;
     gap:40px;
 }
 
@@ -63,11 +64,14 @@ h1{
 
 .yes span{
     position:absolute;
-    top:50%;
+    top:55%;                 /* slightly lower */
     left:50%;
     transform:translate(-50%,-50%) rotate(45deg);
     color:#fff;
     font-weight:bold;
+    font-size:15px;
+    letter-spacing:1px;
+    pointer-events:none;
 }
 
 /* NO button */
@@ -182,7 +186,7 @@ const noTexts=[
 
 /* Move NO */
 function moveNo(){
-if(navigator.vibrate) navigator.vibrate(40);
+if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
 
 const x=Math.random()*(window.innerWidth-120);
 const y=Math.random()*(window.innerHeight-60);
@@ -235,9 +239,33 @@ document.querySelector(".container").innerHTML=`
 <div class="ring">💍</div>
 </div>
 <h1>Will You Marry Me? ❤️</h1>
-<p>From the moment you came into my life,<br>
-everything became beautiful 💖<br>
-I want to spend my forever with you ❤️</p>
+<p>To My Siri,
+This is not a love letter. It is more like a marriage agreement between us.<br><br>
+
+<h3 style="color:#ff4d6d;">To Bubu </h3> <br>
+Nuvu naa life lo present unna most valuable gift, <br>
+Nuvu naku already ok cheppina,<br>
+I'm still trying to make you fall in love with me again.<br>
+I know sometimes, you may feel insecure to introduce me to your friends or anyone.<br>
+But I promise naa valla ayinavi anni nenu chesta, <br>
+Neekosam mellaga koncham koncham marutunna, nuvu adhi observe chesi, appreciate cheyadam naku chala happy ga undi.<br>
+Sometimes you may feel, I'm not trusting you.<br>
+But please Bubu, understand sometimes I too need assurance, after all this happened. I want assurance that this will never happen <br>
+Assurance that you will be with me,<br>
+Assurance that no third person enters between us <br>
+Assurance that you become strong day by day <br>
+Assurance that you will be strict and let them know their boundaries <br> <br> <br>
+
+Because I'm bit possessive about you Bubu, <br>
+I want every small thing of you to be mine. <br>
+You are such a beautiful soul and i don't want any others have eyes 👀 on you. <br> <br> <br>
+
+And I assure you, <br>
+I will be 100 percent loyal to you <br>
+Will never bring third person between us <br>
+Will not share my love with any other female except the cute little version of you that comes into our life <br>
+I will try to make Life better for you <br>
+I will give my whole efforts mentally, physically financially to make you happy❤️</p>
 <h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
 </div>`;
 };
@@ -245,3 +273,4 @@ I want to spend my forever with you ❤️</p>
 
 </body>
 </html>
+
