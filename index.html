@@ -212,9 +212,7 @@ const noTexts=[
 /* Move NO — NEVER leaves screen */
 function moveNo(){
 
-    if (navigator.vibrate) navigator.vibrate([80,40,80]);
-
-    const margin = 12;
+    const margin = 10;
 
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -222,26 +220,22 @@ function moveNo(){
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
 
-    /* --- SAFE ZONE --- */
-    const zoneTop = vh * 0.50;        // lower half of screen
-    const zoneBottom = vh - margin;
-
     const minX = margin;
     const maxX = vw - btnW - margin;
 
-    const minY = zoneTop;
-    const maxY = zoneBottom - btnH;
+    const minY = vh * 0.5;                 // lower half only
+    const maxY = vh - btnH - margin;
 
-    /* --- RANDOM INSIDE SAFE ZONE --- */
     const x = Math.random() * (maxX - minX) + minX;
     const y = Math.random() * (maxY - minY) + minY;
 
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-
-    msg.innerText = noTexts[Math.floor(Math.random() * noTexts.length)];
 }
+
+    /* --- SAFE ZONE --- */
+    
 
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("touchstart",e=>{
@@ -291,5 +285,6 @@ document.querySelector(".container").innerHTML=`
 
 </body>
 </html>
+
 
 
