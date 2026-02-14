@@ -14,30 +14,30 @@ body{
     text-align:center;
 }
 
-/* Center layout (stable, no shifting) */
+/* Center layout */
 .container{
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
+    width:100%;
 }
 
-/* Title */
+/* Title ABOVE buttons (no overlap) */
 h1{
     color:#ff4d6d;
-    margin-bottom:28px;   /* space above heart */
+    margin-bottom:45px;   /* BIG GAP from heart */
 }
 
 /* Buttons row */
 .buttons{
-    margins-top: 30px;
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:40px;
+    gap:55px;            /* space between YES & NO */
 }
 
-/* YES heart (stable shape) */
+/* ❤️ HEART YES */
 .yes{
     position:relative;
     width:100px;
@@ -45,13 +45,15 @@ h1{
     background:#ff4d6d;
     border:none;
     cursor:pointer;
-    transform:rotate(-45deg);
+    transform:rotate(-45deg) scale(1);
+    transform-origin:center;
     display:flex;
     align-items:center;
     justify-content:center;
+    transition:transform 0.15s ease;
 }
 
-/* heart top circles */
+/* heart circles */
 .yes::before,
 .yes::after{
     content:"";
@@ -60,29 +62,17 @@ h1{
     height:100px;
     background:#ff4d6d;
     border-radius:50%;
-    z-index:1;
 }
-    
-.yes::before{
-    top:-55px;
-    left:0;
-}
+.yes::before{ top:-55px; left:0; }
+.yes::after{ left:55px; top:0; }
 
-.yes::after{
-    left:55px;
-    top:0;
-}
-
+/* YES text */
 .yes span{
-    position:absolute;
     transform:rotate(45deg);
-    color:#ffffff;
-    font-size:24px;          /* BIG = visible */
-    font-weight:900;
-    letter-spacing:1px;
-    z-index:2;               /* above heart */
-    text-shadow:0 2px 4px rgba(0,0,0,0.35);  /* contrast */
-    user-select:none;
+    color:#fff;
+    font-size:22px;
+    font-weight:bold;
+    z-index:2;
 }
 
 /* NO button */
@@ -94,8 +84,6 @@ h1{
     background:#6c757d;
     color:#fff;
     cursor:pointer;
-    position:relative;
-    z-index:10;
 }
 
 /* Floating hearts */
@@ -123,66 +111,14 @@ h1{
     from{ transform:translateY(0) rotate(0); }
     to{ transform:translateY(110vh) rotate(360deg); }
 }
-
-/* Proposal */
-.proposal{
-    text-align:center;
-}
-
-/* Ring animation (no overlap now) */
-.ring-box{
-    font-size:64px;
-    position:relative;
-    height:90px;          /* reserves vertical space */
-    margin-bottom:18px;
-}
-    
-.lid{
-    display:block;
-    animation:openLid 1s forwards;
-    position:relative;
-    z-index:2;
-}
-    
-/* 💍 Ring ABOVE the box */
-.ring{
-    position:absolute;
-    left:50%;
-    top:-32px;           /* NEGATIVE = above box */
-    transform:translateX(-50%) scale(0);
-    animation:ringPop 0.8s forwards;
-    animation-delay:0.8s;
-    z-index:3;
-}
-
-@keyframes ringPop{
-    0%{
-        transform:translateX(-50%) scale(0) translateY(20px);
-        opacity:0;
-    }
-    70%{
-        transform:translateX(-50%) scale(1.25) translateY(-6px);
-        opacity:1;
-    }
-    100%{
-        transform:translateX(-50%) scale(1) translateY(0);
-        opacity:1;
-    }
-}    
-
-@keyframes openLid{
-    from{ transform:rotateX(0); }
-    to{ transform:rotateX(-120deg); }
-}
-
 </style>
 </head>
+
+<body>
 
 <audio id="music" loop>
 <source src="Vaalu.mp3" type="audio/mpeg">
 </audio>
-
-<body>
 
 <div class="container">
 
@@ -193,24 +129,15 @@ h1{
 <button id="noBtn" class="no">No 😜</button>
 </div>
 
-<p id="msg" style="color:#ff4d6d;font-weight:600;"></p>
-
 </div>
 
 <script>
-const yesBtn=document.getElementById("yesBtn");
-const noBtn=document.getElementById("noBtn");
-const msg=document.getElementById("msg");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn  = document.getElementById("noBtn");
 
-const noTexts=[
-"No aa? Think again 😜",
-"Escape avvalevu 😏",
-"I am faster 🏃‍♂️",
-"Click YES ra ❤️",
-"Destiny says YES 💘"
-];
-
-/* Move NO — NEVER leaves screen */
+/* =========================
+   FIX 1 — NO NEVER OUTSIDE
+   ========================= */
 function moveNo(){
 
     const margin = 10;
@@ -224,7 +151,7 @@ function moveNo(){
     const minX = margin;
     const maxX = vw - btnW - margin;
 
-    const minY = vh * 0.5;                 // lower half only
+    const minY = margin;
     const maxY = vh - btnH - margin;
 
     const x = Math.random() * (maxX - minX) + minX;
@@ -232,63 +159,68 @@ function moveNo(){
 
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    noBtn.style.top  = y + "px";
 }
 
-    /* --- SAFE ZONE --- */
-    
-
-noBtn.addEventListener("mouseover",moveNo);
-noBtn.addEventListener("touchstart",e=>{
-e.preventDefault();
-moveNo();
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", e=>{
+    e.preventDefault();
+    moveNo();
 });
 
-/* Floating hearts */
+/* =========================
+   Floating hearts
+   ========================= */
 setInterval(()=>{
-const h=document.createElement("div");
-h.className="heart";
-h.innerHTML="💗";
-h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=(3+Math.random()*3)+"s";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💗";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(3+Math.random()*3)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
 },300);
 
 /* Petals */
 function petal(){
-const p=document.createElement("div");
-p.className="petal";
-p.innerHTML="🌹";
-p.style.left=Math.random()*100+"vw";
-p.style.animationDuration=(4+Math.random()*3)+"s";
-document.body.appendChild(p);
-setTimeout(()=>p.remove(),7000);
+    const p=document.createElement("div");
+    p.className="petal";
+    p.innerHTML="🌹";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(4+Math.random()*3)+"s";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),7000);
 }
 
-/* YES click */
-yesBtn.onclick=()=>{
-document.getElementById("music").play().catch(()=>{});
-setInterval(petal,250);
+/* =========================
+   YES GROW — keep heart shape
+   ========================= */
+yesBtn.scale = 1;
+function growYes(){
+    if(yesBtn.scale < 1.8){
+        yesBtn.scale += 0.06;
+        yesBtn.style.transform =
+            `rotate(-45deg) scale(${yesBtn.scale})`;
+    }
+}
 
-document.querySelector(".container").innerHTML=`
-<div class="proposal">
-<div class="ring-box">
-<div class="lid">📦</div>
-<div class="ring">💍</div>
-</div>
-<h1>Will You Marry Me? ❤️</h1>
-<p>Your love letter text here. and here..</p>
-<h3 style="color:#ff4d6d;">Yours Dudu 💌</h3>
-</div>`;
-};
+/* =========================
+   YES CLICK
+   ========================= */
+yesBtn.addEventListener("click", ()=>{
+    document.getElementById("music").play().catch(()=>{});
+    setInterval(petal,250);
+
+    document.querySelector(".container").innerHTML=`
+    <h1>Will You Marry Me? ❤️</h1>
+    <p>You are my everything BUBb 💖</p>
+    `;
+});
+
+/* Grow YES whenever NO tries */
+noBtn.addEventListener("mouseover", growYes);
+noBtn.addEventListener("touchstart", growYes);
+
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
