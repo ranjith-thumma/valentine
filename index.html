@@ -118,9 +118,9 @@ h1{
 /* Ring animation (no overlap now) */
 .ring-box{
     font-size:64px;
-    margin-bottom:26px;   /* ensures gap from title */
     position:relative;
-    height:70px;          /* reserves vertical space */
+    height:90px;          /* reserves vertical space */
+    margin-bottom:18px;
 }
     
 .lid{
@@ -129,25 +129,38 @@ h1{
     position:relative;
     z-index:2;
 }
+    
+/* 💍 Ring ABOVE the box */
 .ring{
     position:absolute;
-    top:8px;              /* LOCKED inside box */
     left:50%;
+    top:-32px;           /* NEGATIVE = above box */
     transform:translateX(-50%) scale(0);
     animation:ringPop 0.8s forwards;
     animation-delay:0.8s;
-    z-index:1;
+    z-index:3;
 }
+
+@keyframes ringPop{
+    0%{
+        transform:translateX(-50%) scale(0) translateY(20px);
+        opacity:0;
+    }
+    70%{
+        transform:translateX(-50%) scale(1.25) translateY(-6px);
+        opacity:1;
+    }
+    100%{
+        transform:translateX(-50%) scale(1) translateY(0);
+        opacity:1;
+    }
+}    
 
 @keyframes openLid{
     from{ transform:rotateX(0); }
     to{ transform:rotateX(-120deg); }
 }
-@keyframes ringPop{
-    0%{ transform:translateX(-50%) scale(0); }
-    70%{ transform:translateX(-50%) scale(1.25); }
-    100%{ transform:translateX(-50%) scale(1); }
-}
+
 </style>
 </head>
 
@@ -189,8 +202,11 @@ function moveNo(){
     if (navigator.vibrate) navigator.vibrate([80,40,80]);
 
     const margin = 14;
-    const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+    // visible viewport (works mobile + laptop)
+    const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
 
@@ -201,7 +217,7 @@ function moveNo(){
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
-    /* SECOND CLAMP AFTER RENDER (prevents escape completely) */
+    // SECOND HARD CLAMP (guaranteed inside)
     const rect = noBtn.getBoundingClientRect();
 
     if(rect.right > vw) noBtn.style.left = (vw - btnW - margin) + "px";
@@ -210,7 +226,8 @@ function moveNo(){
     if(rect.top < margin) noBtn.style.top = margin + "px";
 
     msg.innerText = noTexts[Math.floor(Math.random() * noTexts.length)];
-} 
+}
+
 
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("touchstart",e=>{
@@ -260,4 +277,5 @@ document.querySelector(".container").innerHTML=`
 
 </body>
 </html>
+
 
